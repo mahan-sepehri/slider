@@ -1,13 +1,28 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./AddSlide.css";
 
-const AddSlide = ({ slides, setSlides }) => {
+const AddSlide = ({ setSlides, setIsLoading }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const onTitleChange = (e) => setTitle(e.target.value);
-  const onDescriptionChange = (e) => setDescription(e.target.value);
+  // const [isValid, setIsValid] = useState(false);
+
+  const validate = (input) => {
+    if (input.trim().length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const isValid = validate(title) && validate(description);
+  const onTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const onDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
 
   const fetchSlides = useCallback(async () => {
+    setIsLoading(true);
     const response = await fetch(
       "https://react-test-1f2d2-default-rtdb.firebaseio.com/slides.json"
     );
@@ -22,7 +37,8 @@ const AddSlide = ({ slides, setSlides }) => {
       });
     }
     setSlides(loadedSlides);
-  }, [setSlides]);
+    setIsLoading(false);
+  }, [setSlides, setIsLoading]);
 
   useEffect(() => {
     fetchSlides();
@@ -30,6 +46,14 @@ const AddSlide = ({ slides, setSlides }) => {
 
   const onSlideSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValid) {
+      console.log("there is a problem");
+      return;
+    }
+
+    setIsLoading(true);
+
     const newSlide = { title: title, description: description };
 
     const response = await fetch(

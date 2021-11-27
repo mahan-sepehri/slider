@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Slider.css";
 
-const Slider = ({ slides, setSlides }) => {
+const Slider = ({ slides, isLoading }) => {
   const [translateX, setMovement] = useState(0);
 
   const renderSlides =
@@ -27,6 +27,7 @@ const Slider = ({ slides, setSlides }) => {
       <div
         className={`circle ${translateX === index * 100 ? "active" : ""}`}
         key={index}
+        onClick={() => setMovement(index * 100)}
       ></div>
     );
   });
@@ -46,6 +47,10 @@ const Slider = ({ slides, setSlides }) => {
     }, 5000);
     return () => clearTimeout(timer);
   }, [translateX, slides.length, setMovement]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   const prevSlideShow = () => {
     switch (translateX) {

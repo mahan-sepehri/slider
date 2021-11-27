@@ -4,10 +4,17 @@ import Slider from "./components/Slider";
 
 const App = () => {
   const [slides, setSlides] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <div className="container">
-      <Slider slides={slides} setSlides={setSlides} />
-      <AddSlide slides={slides} setSlides={setSlides} />
+      <Slider slides={slides} isLoading={isLoading} />
+      <AddSlide
+        slides={slides}
+        setSlides={setSlides}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
     </div>
   );
 };
