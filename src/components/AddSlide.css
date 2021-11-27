@@ -29,6 +29,12 @@
   color: white;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-slide-button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 .form-field {

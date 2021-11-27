@@ -120,7 +120,9 @@ const AddSlide = ({ setSlides, setIsLoading }) => {
             />
           </div>
         </div>
-        <button className="add-slide-button">Submit</button>
+        <button className="add-slide-button" disabled={!isValid}>
+          Submit
+        </button>
       </form>
     </div>
   );
