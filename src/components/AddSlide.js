@@ -1,10 +1,23 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import "./AddSlide.css";
 
 const AddSlide = ({ setSlides, setIsLoading }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   // const [isValid, setIsValid] = useState(false);
+  const titleRef = useRef();
+  const descriptionRef = useRef();
+
+  const setActiveStyle = (elRef, active) => {
+    if (active) {
+      elRef.current.classList.add("form-field--is-active");
+    } else {
+      elRef.current.classList.remove("form-field--is-active");
+      elRef.current.value === ""
+        ? elRef.current.classList.remove("form-field--is-filled")
+        : elRef.current.classList.add("form-field--is-filled");
+    }
+  };
 
   const validate = (input) => {
     if (input.trim().length === 0) {
@@ -73,23 +86,41 @@ const AddSlide = ({ setSlides, setIsLoading }) => {
     setDescription("");
   };
   return (
-    <div>
+    <div className="add-slide-container">
       <form className="input-container" onSubmit={onSlideSubmit}>
-        <label htmlFor="slide-title">Slide Title</label>
-        <input
-          id="slide-title"
-          type="text"
-          value={title}
-          onChange={onTitleChange}
-        />
-        <label htmlFor="slide-description">Slide Description</label>
-        <input
-          id="slide-description"
-          type="text"
-          value={description}
-          onChange={onDescriptionChange}
-        />
-        <button>Submit</button>
+        <div className="form-field" ref={titleRef}>
+          <div className="form-field__control">
+            <label className="form-field__label" htmlFor="slide-title">
+              Slide Title
+            </label>
+            <input
+              className="form-field__input"
+              id="slide-title"
+              type="text"
+              value={title}
+              onChange={onTitleChange}
+              onFocus={() => setActiveStyle(titleRef, true)}
+              onBlur={() => setActiveStyle(titleRef, false)}
+            />
+          </div>
+        </div>
+        <div className="form-field" ref={descriptionRef}>
+          <div className="form-field__control">
+            <label className="form-field__label" htmlFor="slide-description">
+              Slide Description
+            </label>
+            <textarea
+              className="form-field__textarea"
+              id="slide-description"
+              type="text"
+              value={description}
+              onChange={onDescriptionChange}
+              onFocus={() => setActiveStyle(descriptionRef, true)}
+              onBlur={() => setActiveStyle(descriptionRef, false)}
+            />
+          </div>
+        </div>
+        <button className="add-slide-button">Submit</button>
       </form>
     </div>
   );

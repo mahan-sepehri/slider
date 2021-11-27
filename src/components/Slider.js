@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Slider.css";
+import next from "../assets/next.svg";
+import prev from "../assets/prev.svg";
 
 const Slider = ({ slides, isLoading }) => {
   const [translateX, setMovement] = useState(0);
@@ -80,12 +82,22 @@ const Slider = ({ slides, isLoading }) => {
         <>
           <div className="slider-box">
             <div className="button-container">
-              <button onClick={prevSlideShow}>prev</button>
+              <img
+                className="slider-button"
+                src={prev}
+                alt="previous slide button"
+                onClick={prevSlideShow}
+              />
             </div>
 
             <div className="slider-container">{renderSlides}</div>
             <div className="button-container">
-              <button onClick={nextSlideShow}>next</button>
+              <img
+                className="slider-button"
+                src={next}
+                alt="next slide button"
+                onClick={nextSlideShow}
+              />
             </div>
           </div>
           <div className="circle-container">{renderCircles}</div>
